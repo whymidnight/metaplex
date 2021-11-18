@@ -356,16 +356,17 @@ const Home = (props: HomeProps) => {
 
         setFairLaunch(state);
 
-        try {
+      try {
           if (state.state.tokenMint) {
-            const fairLaunchBalance =
-              await props.connection.getTokenAccountBalance(
-                (
+            const [ata]  = (
                   await getAtaForMint(
                     state.state.tokenMint,
                     anchorWallet.publicKey,
                   )
-                )[0],
+                );
+            const fairLaunchBalance =
+              await props.connection.getTokenAccountBalance(
+                ata,
               );
 
             if (fairLaunchBalance.value) {
@@ -376,10 +377,11 @@ const Home = (props: HomeProps) => {
           console.log('Problem getting fair launch token balance');
           console.log(e);
         }
-        if (contributed == 0) {
+
+        if (contributed === 0) {
           const phase = getPhase(state, undefined);
 
-          if (phase == Phase.Phase1) {
+          if (phase === Phase.Phase1) {
             const ticks =
               (state.state.data.priceRangeEnd.toNumber() -
                 state.state.data.priceRangeStart.toNumber()) /
@@ -439,7 +441,7 @@ const Home = (props: HomeProps) => {
       label: `${min} SOL`,
     },
     // TODO:L
-    ...(phase == Phase.Phase1
+    ...(phase === Phase.Phase1
       ? []
       : [
           {

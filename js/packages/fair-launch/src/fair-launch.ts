@@ -9,7 +9,7 @@ import {
 } from './utils';
 
 export const FAIR_LAUNCH_PROGRAM = new anchor.web3.PublicKey(
-  'faircnAB9k59Y4TXmLabBULeuTLgV7TkGMGNkjnA15j',
+  '63D4TJjFXtVWmsY3wXwr49jS6xZbRV7VP1yjueEvbKjv',
 );
 
 export interface FairLaunchAccount {
@@ -113,7 +113,7 @@ export const getFairLaunchState = async (
   connection: anchor.web3.Connection,
 ): Promise<FairLaunchAccount> => {
   const provider = new anchor.Provider(connection, anchorWallet, {
-    preflightCommitment: 'recent',
+    preflightCommitment: 'finalized',
   });
 
   const idl = await anchor.Program.fetchIdl(FAIR_LAUNCH_PROGRAM, provider);
@@ -188,9 +188,8 @@ export const punchTicket = async (
 
   const ticket = fairLaunch.ticket.data;
 
-  const fairLaunchLotteryBitmap = ( //@ts-ignore
-    await getFairLaunchLotteryBitmap(fairLaunch.state.tokenMint)
-  )[0];
+  const fairLaunchLotteryBitmap = //@ts-ignore
+  (await getFairLaunchLotteryBitmap(fairLaunch.state.tokenMint))[0];
 
   const buyerTokenAccount = (
     await getAtaForMint(
@@ -520,8 +519,9 @@ export const purchaseTicket = async (
     );
 
   if (ticket) {
-    const fairLaunchLotteryBitmap = //@ts-ignore
-    (await getFairLaunchLotteryBitmap(fairLaunch.state.tokenMint))[0];
+    const fairLaunchLotteryBitmap = ( //@ts-ignore
+      await getFairLaunchLotteryBitmap(fairLaunch.state.tokenMint)
+    )[0];
     console.log(
       'Anchor wallet',
       anchorWallet.publicKey.toBase58(),

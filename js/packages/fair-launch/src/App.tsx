@@ -27,6 +27,8 @@ const theme = createTheme({
   },
 });
 
+console.log(process.env);
+
 const candyMachineId = process.env.REACT_APP_CANDY_MACHINE_ID
   ? new anchor.web3.PublicKey(process.env.REACT_APP_CANDY_MACHINE_ID)
   : undefined;
