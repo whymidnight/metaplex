@@ -66,6 +66,7 @@ const App = () => {
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
           <WalletDialogProvider>
+            <div style={{marginTop: "50vh"}}>
             <Home
               candyMachineId={candyMachineId}
               connection={connection}
@@ -73,6 +74,7 @@ const App = () => {
               rpcHost={rpcHost}
               network={network}
             />
+            </div>
           </WalletDialogProvider>
         </WalletProvider>
       </ConnectionProvider>
